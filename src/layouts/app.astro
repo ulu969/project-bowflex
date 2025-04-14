@@ -1,0 +1,22 @@
+---
+import './src/styles/global.css';
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+  </head>
+
+  <body class="flex w-full h-screen bg-gray-200">
+    <aside class="w-1/5 min-w-30 py-4 px-3 bg-gray-200">Sidebar</aside>
+    <main class="flex-1 py-4 px-4 bg-white">
+      <div class="">
+        <slot />
+      </div>
+    </main>
+  </body>
+</html>
