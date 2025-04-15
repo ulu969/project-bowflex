@@ -1,0 +1,36 @@
+---
+import Layout from '@layouts/app.astro';
+import { fetchUsers, fetchExercises } from '@/src/data';
+const exercises = await fetchExercises();
+---
+
+<Layout title="Exercises">
+  {exercises.length === 0 && <p>No exercises found</p>}
+
+  {
+    exercises.length > 0 &&
+      exercises.map((exer) => (
+        <div class="flex">
+          <div class="p-2 flex-1 w-full">{exer.exer_name}</div>
+          <div class="p-2">{exer.exer_page}</div>
+          <div class="p-2">{exer.exer_musclegroup} </div>
+          <div class="p-2">
+            <form
+              action={'/app/tasks/' + exer.exer_id + '/delete'}
+              method="POST"
+            >
+              <button
+                type="submit"
+                class="bg-gray-500 text-white text-xs px-1 py-0.5 font-mono rounded-sm cursor-pointer"
+                onclick={
+                  "return confirm('Are you sure you want to delete this task?')"
+                }
+              >
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+      ))
+  }
+</Layout>
