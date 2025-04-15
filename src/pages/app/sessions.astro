@@ -1,0 +1,36 @@
+---
+import Layout from '@layouts/app.astro';
+import { fetchSessions, fetchUsers, fetchExercises } from '@/src/data';
+const sessions = await fetchSessions();
+---
+
+<Layout title="Sessions">
+  {sessions.length === 0 && <p>No sessions found</p>}
+
+  {
+    sessions.length > 0 &&
+      sessions.map((session) => (
+        <div class="flex">
+          <div class="p-2 flex-1 w-full">{session.session_date}</div>
+          <div class="p-2">{session.user_name}</div>
+
+          <div class="p-2">
+            <form
+              action={'/app/sessions/' + session.session_id + '/delete'}
+              method="POST"
+            >
+              <button
+                type="submit"
+                class="bg-gray-500 text-white text-xs px-1 py-0.5 font-mono rounded-sm cursor-pointer"
+                onclick={
+                  "return confirm('Are you sure you want to delete this task?')"
+                }
+              >
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+      ))
+  }
+</Layout>

@@ -1,7 +1,8 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
-import { exercises, users } from '@drizzle/schema'
+import { lifts, sessions, exercises, users } from '@drizzle/schema'
 import { eq, desc } from 'drizzle-orm'
 import Users from './pages/app/users.astro'
+import { decodeBase64 } from 'hono/utils/encode'
 
 export const db = drizzle(import.meta.env.POSTGRES_URL!)
 
@@ -15,6 +16,12 @@ interface Exercise {
   exer_name: string
   exer_page: number
   exer_musclegroup: string
+}
+
+interface Session {
+  session_id: number
+  session_date: string
+  user_name: string | null
 }
 
 export async function fetchUsers(): Promise<User[]> {
@@ -55,6 +62,25 @@ export async function fetchExercises(): Promise<Exercise[]> {
 
   } catch (error) {
     console.error('Error fetching exercises:', error)
+    return []
+  }
+}
+export async function fetchSessions(): Promise<Session[]> {
+  try {
+    const result = await db
+      .select({
+        session_id: sessions.sessionId,
+        session_date: sessions.sessionDate,
+        user_name: users.userName,
+      })
+      .from(sessions)
+      .leftJoin(users, eq(sessions.userId, users.userId))
+
+    return result as Session[]
+
+
+  } catch (err) {
+    console.error('Error fetching sessions: ', err)
     return []
   }
 }

@@ -37,12 +37,34 @@ const url = new URL(Astro.request.url).pathname;
         >
           Users
         </a>
+        <a
+          href="/app/sessions"
+          class:list={[
+            'px-3 py-2 rounded',
+            url === '/app/sessions'
+              ? 'bg-white text-gray-900 font-medium'
+              : 'text-gray-700 hover:bg-gray-300',
+          ]}
+        >
+          Sessions
+        </a>
+        <a
+          href="/app/lifts"
+          class:list={[
+            'px-3 py-2 rounded',
+            url === '/app/lifts'
+              ? 'bg-white text-gray-900 font-medium'
+              : 'text-gray-700 hover:bg-gray-300',
+          ]}
+        >
+          Lifts
+        </a>
       </nav>
     </aside>
-    <main class="flex-1 py-4 px-4 bg-white">
-      <div class="">
-        <slot />
-      </div>
-    </main>
   </body>
+  <main class="flex-1 py-4 px-4 bg-white">
+    <div class="">
+      <slot />
+    </div>
+  </main>
 </html>
