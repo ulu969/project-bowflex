@@ -24,6 +24,15 @@ interface Session {
   user_name: string | null
 }
 
+interface Lift {
+  lift_id: number
+  session_id: number
+  exer_name: string
+  weight: number
+  reps: number
+  comments: string
+}
+
 export async function fetchUsers(): Promise<User[]> {
   try {
     const result = await db
@@ -82,5 +91,25 @@ export async function fetchSessions(): Promise<Session[]> {
   } catch (err) {
     console.error('Error fetching sessions: ', err)
     return []
+  }
+}
+
+export async function fetchLifts(): Promise<Lift[]> {
+  try {
+    const result = await db
+      .select({
+        lift_id: lifts.liftId,
+        session_id: lifts.sessionId,
+        exer_name: exercises.exerName,
+        weight: lifts.weight,
+        reps: lifts.reps,
+        comments: lifts.comments
+      })
+      .from(lifts)
+      .leftJoin(exercises, eq(lifts.exerId, exercises.exerId))
+    return result as Lift[]
+  } catch (err) {
+    console.error('Error fetching lifts: ', err)
+    return [];
   }
 }

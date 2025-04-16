@@ -23,7 +23,7 @@ const sessions = await fetchSessions();
                 type="submit"
                 class="bg-gray-500 text-white text-xs px-1 py-0.5 font-mono rounded-sm cursor-pointer"
                 onclick={
-                  "return confirm('Are you sure you want to delete this task?')"
+                  "return confirm('Are you sure you want to delete this session?')"
                 }
               >
                 Delete
@@ -33,4 +33,10 @@ const sessions = await fetchSessions();
         </div>
       ))
   }
+  <button
+    id="button-add"
+    class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:-translate-y-1 cursor-pointer"
+  >
+    <span class="text-3xl -mt-1 font-bold">&plus;</span>
+  </button>
 </Layout>

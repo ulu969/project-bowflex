@@ -16,10 +16,10 @@ const url = new URL(Astro.request.url).pathname;
     <aside class="w-1/5 py-4 px-3 bg-gray-200 min-w-30">
       <nav class="flex flex-col space-y-2 text-xs font-mono">
         <a
-          href="/app"
+          href="/app/exercises"
           class:list={[
             'px-3 py-2 rounded',
-            url === '/app'
+            url === '/app/exercises'
               ? 'bg-white text-gray-900 font-medium'
               : 'text-gray-700 hover:bg-gray-300',
           ]}
