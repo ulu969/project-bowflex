@@ -1,7 +1,13 @@
 ---
 import Layout from '@layouts/app.astro';
+import { Image } from 'astro:assets';
+import page22Image from '../assets/manual_images/page24.jpg';
+import { addExercise } from '../data';
+
+addExercise('Quadriceps Extension', 'Leg', 33);
 ---
 
 <Layout title="Welcome">
   <h1>Bowflex App</h1>
+  <!-- <Image src={page22Image} alt="page 22" width="600" height="600" /> -->
 </Layout>

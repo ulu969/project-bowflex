@@ -1,8 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { lifts, sessions, exercises, users } from '@drizzle/schema'
 import { eq, desc } from 'drizzle-orm'
-import Users from './pages/app/users.astro'
-import { decodeBase64 } from 'hono/utils/encode'
 
 export const db = drizzle(import.meta.env.POSTGRES_URL!)
 
@@ -112,4 +110,19 @@ export async function fetchLifts(): Promise<Lift[]> {
     console.error('Error fetching lifts: ', err)
     return [];
   }
+}
+
+export async function addExercise(name: string, group: string, page: number) {
+
+
+  try {
+    await db.insert(exercises).values({
+      exerName: name,
+      exerMusclegroup: group,
+      exerPage: page,
+    })
+  } catch (err: any) {
+    console.error('Error adding exercises to database: ', err.message)
+  }
+
 }

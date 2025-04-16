@@ -10,11 +10,11 @@ const exercises = await fetchExercises();
   {
     exercises.length > 0 &&
       exercises.map((exer) => (
-        <div class="flex">
-          <div class="p-2 flex-1 w-full">{exer.exer_name}</div>
-          <div class="p-2">{exer.exer_musclegroup} </div>
+        <div class="flex flex-row">
+          <div class="p-2 basis-1/5">{exer.exer_musclegroup} </div>
+          <div class="p-2 basis-2/5 ">{exer.exer_name}</div>
           <div class="p-2">{exer.exer_page}</div>
-          <div class="p-2">
+          {/* <div class="p-2">
             <form
               action={'/app/exercises/' + exer.exer_id + '/delete'}
               method="POST"
@@ -29,8 +29,14 @@ const exercises = await fetchExercises();
                 Delete
               </button>
             </form>
-          </div>
+          </div> */}
         </div>
       ))
   }
+  <button
+    id="button-add"
+    class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:-translate-y-1 cursor-pointer"
+  >
+    <span class="text-3xl -mt-1 font-bold">&plus;</span>
+  </button>
 </Layout>
