@@ -1,108 +1,118 @@
-//class for bowflex exercises
-class Bowflex {
-  exercise = [exName, pgNumber];
-  category = "";
-}
-const workouts = [
-  //chest
-  [
-    "Chest",
-    ["Bench Press", 22],
-    ["Chest Fly", 22],
-    ["Decline Bench Press", 23],
-    ["Incline Bench Press", 23],
-    ["Decline Chest Fly", 24],
-    ["Incline Chest Fly", 24],
-  ],
-  //Shoulder Exercises:
-  [
-    "Shoulder",
-    ["Reverse Fly", 25],
-    ["Crossover Reverse Fly", 25],
-    ["Crossover Rear Deltoid Rows", 26],
-    ["Crossover High Rear Deltoid Rows", 26],
-    ["Lateral Shoulder Raise ", 27],
-    ["Forearm Lateral Shoulder Raise ", 27],
-    ["Front Shoulder Raise ", 28],
-    ["Seated Shoulder Press", 28],
-    ["Shoulder Rotator Cuff (internal)", 29],
-    ["Shoulder Rotator Cuff (external) ", 29],
-    ["Shoulder Extension", 30],
-    ["Shoulder Shrug  ", 30],
-    ["Scapular Protraction ", 31],
-    ["Scapular Depression", 31],
-  ],
-  //Back Exercises
-  [
-    "Back",
-    ["Good Morning", 32],
-    ["Standing Low Back Extension", 32],
-    ["Standing Shoulder Pullover w/ Bent Lat Bar", 33],
-    ["Standing Shoulder Pullover w/ Hand Grips", 33],
-    ["Narrow Pulldowns w/ Bent Lat Bar", 34],
-    ["Narrow Pulldowns w/ Hand Grips", 34],
-    ["Bent Over Row", 35],
-    ["Crossover Bent Over Row", 35],
-    ["Reverse Grip Pulldowns w/ Lat Bar", 36],
-    ["Reverse Grip Pulldowns w/ Hand Grips"],
-    ["Crossover Wide Pulldowns w/ Hand Grips", 37],
-    ["Crossover Narrow Pulldowns w/ Hand Grips", 37],
-    ["Pulldowns", 38],
-    ["Stiff Arm Pulldowns", 38],
-    ["Seated Lat Pulldowns", 39],
-    ["Seated Wide Lat Pulldowns", 39],
-  ],
-  //Arm Exercises
-  [
-    "Arm",
-    ["Triceps Pushdown w/ Hand Grips", 40],
-    ["Triceps Hammer Pushdown", 40],
-    ["Triceps Pushdown w/ Bent Lat Bar", 41],
-    ["Single Arm Pushdown", 41],
-    ["Triceps Extension", 42],
-    ["Cross Triceps Extension", 42],
-    ["Hammer Triceps Extension", 43],
-    ["Rope Pushdown", 43],
-    ["Triceps Kickback", 44],
-    ["Hammer Triceps Kickback", 44],
-    ["Resisted Dip", 45],
-    ["Biceps Curl", 45],
-    ["Standing Biceps Curl", 46],
-    ["Hammer Biceps Curl", 46],
-    ["Concentration Biceps Curl", 47],
-    ["Reverse Curl", 47],
-    ["Barbell Biceps Curl", 48],
-    ["Reverse Barbell Biceps Curl", 48],
-    ["Seated Biceps Curl", 49],
-    ["Seated Biceps Hammer Curl", 49],
-    ["Arm Opposition Push-Pull", 50],
-    ["Upper Body Opposition Push-Pull", 50],
-    ["Wrist Extension", 51],
-    ["Wrist Curl", 51],
-  ],
 
+export const workoutsObj = [
+  
+
+  //chest
+ {group: "Chest",
+  exers:  [{ name: "Bench Press", page: 22 },
+    {name: "Chest Fly", page: 22},
+    { name:"Decline Bench Press", page: 23},
+    { name:"Incline Bench Press", page: 23},
+    { name:"Decline Chest Fly", page: 24},
+    { name:"Incline Chest Fly", page: 24},
+  ],
+},
+
+  //Shoulder Exercises:
+  {
+
+    group: "Shoulder",
+    exers: [
+      
+      {name: "Reverse Fly", page: 25},
+      {name: "Crossover Reverse Fly", page: 25},
+      {name: "Crossover Rear Deltoid Rows", page: 26},
+      {name: "Crossover High Rear Deltoid Rows", page: 26},
+      {name: "Lateral Shoulder Raise ", page: 27},
+      {name: "Forearm Lateral Shoulder Raise ", page: 27},
+      {name: "Front Shoulder Raise ", page: 28},
+      {name: "Seated Shoulder Press", page: 28},
+      {name: "Shoulder Rotator Cuff (internal)", page: 29},
+      {name: "Shoulder Rotator Cuff (external) ", page: 29},
+      {name: "Shoulder Extension", page: 30},
+    {name: "Shoulder Shrug  ", page: 30},
+    {name: "Scapular Protraction ", page: 31},
+    {name: "Scapular Depression", page: 31},
+  ],
+},
+  //Back Exercises
+  
+  { group: "Back",
+  exers: [
+    
+    {name: "Good Morning", page: 32},
+    {name: "Standing Low Back Extension", page: 32},
+    {name: "Standing Shoulder Pullover w/ Bent Lat Bar", page: 33},
+    {name: "Standing Shoulder Pullover w/ Hand Grips", page: 33},
+    {name: "Narrow Pulldowns w/ Bent Lat Bar", page: 34},
+    {name: "Narrow Pulldowns w/ Hand Grips", page: 34},
+    {name: "Bent Over Row", page: 35},
+    {name: "Crossover Bent Over Row", page: 35},
+    {name: "Reverse Grip Pulldowns w/ Lat Bar", page: 36},
+    {name: "Reverse Grip Pulldowns w/ Hand Grips",page: 36 },
+    {name: "Crossover Wide Pulldowns w/ Hand Grips", page: 37},
+    {name: "Crossover Narrow Pulldowns w/ Hand Grips", page: 37},
+    {name: "Pulldowns", page: 38},
+    {name: "Stiff Arm Pulldowns", page: 38},
+    {name: "Seated Lat Pulldowns", page: 39},
+    {name: "Seated Wide Lat Pulldowns", page: 39},
+  ],
+},
+  //Arm Exercises
+  
+  { group: "Arm",
+  exers: [
+    
+    {name: "Triceps Pushdown w/ Hand Grips", page: 40},
+    {name: "Triceps Hammer Pushdown", page: 40},
+    {name: "Triceps Pushdown w/ Bent Lat Bar", page: 41},
+    {name: "Single Arm Pushdown", page: 41},
+    {name: "Triceps Extension", page: 42},
+    {name: "Cross Triceps Extension", page: 42},
+    {name: "Hammer Triceps Extension", page: 43},
+    {name: "Rope Pushdown", page: 43},
+    {name: "Triceps Kickback", page: 44},
+    {name: "Hammer Triceps Kickback", page: 44},
+    {name: "Resisted Dip", page: 45},
+    {name: "Biceps Curl", page: 45},
+    {name: "Standing Biceps Curl", page: 46},
+    {name: "Hammer Biceps Curl", page: 46},
+    {name: "Concentration Biceps Curl", page: 47},
+    {name: "Reverse Curl",page:  47},
+    {name: "Barbell Biceps Curl", page: 48},
+    {name: "Reverse Barbell Biceps Curl", page: 48},
+    {name: "Seated Biceps Curl", page: 49},
+    {name: "Seated Biceps Hammer Curl", page: 49},
+    {name: "Arm Opposition Push-Pull", page: 50},
+    {name: "Upper Body Opposition Push-Pull", page: 51},
+    {name: "Wrist Curl", page: 51},
+  ],
+},
   //Abdominal Exercises
-  [
-    "Abdominal",
-    ["Trunk Rotation", 52],
-    ["Seated (resisted) Oblique Abdominal Crunch", 52],
-    ["Seated (resisted) Abdominal Crunch", 53],
+  
+  {group: "Abdominal",
+  exers: [
+    {name: "Trunk Rotation", page: 52},
+    {name: "Seated (resisted) Oblique Abdominal Crunch", page: 52},
+    {name: "Seated (resisted) Abdominal Crunch", page: 53},
   ],
+},
   //Leg Exercises
-  [
-    "Leg",
-    ["Leg Extension", 54],
-    ["Squat", 54],
-    ["Standing Hip Extension (knee bent)", 55],
-    ["Standing Hip Extension (knee extended)", 55],
-    ["Leg Kickback", 56],
-    ["Hip Flexion", 56],
-    ["Dead Lift", 57],
-    ["Stiff Leg Dead Lift", 57],
-    ["Standing Hip Adduction", 58],
-    ["Standing Hip Abduction", 58],
-  ],
+  
+  {group:  "Leg",
+  exers: [
+    {name: "Leg Extension", page:54},
+    {name: "Squat",        page:54},
+    {name: "Standing Hip Extension (knee bent)", page:55},
+    {name: "Standing Hip Extension (knee extended)", page:55},
+    {name: "Leg Kickback", page:56},
+    {name: "Hip Flexion", page:56},
+    {name: "Dead Lift", page:57},
+    {name: "Stiff Leg Dead Lift", page:57},
+    {name: "Standing Hip Adduction", page:58},
+    {name: "Standing Hip Abduction",page: 58},
+   ]
+  }
+
 ];
-console.log("workouts", ...workouts);
-const groups = [...workouts];
-console.log("groups", groups);
+
