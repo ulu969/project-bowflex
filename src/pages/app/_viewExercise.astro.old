@@ -1,0 +1,11 @@
+---
+import Layout from '@layouts/app.astro';
+
+const pageNumber = '38';
+const imageSrc = `../src/assets/manual_images/page${pageNumber}.jpg`;
+---
+
+<Layout title="Exercise Description">
+  <h2>From the Bowflex Manual</h2>
+  <img src={imageSrc} alt={pageNumber} />
+</Layout>
