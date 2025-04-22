@@ -1,0 +1,63 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '@layouts/app.astro';
+export const getStaticPaths = (() => {
+   const pages = [...Array(37).keys()].map(page => page+22)
+  const paramObjArray = pages.map((page)=>{
+    const paramObj = { params: {pageNumber: page.toString()}}
+    return paramObj
+  })
+ 
+  return paramObjArray
+
+  // return [
+  //   { params: { pageNumber: '22' } },
+  //   { params: { pageNumber: '23' } },
+  //   { params: { pageNumber: '24' } },
+  //   { params: { pageNumber: '25' } },
+  //   { params: { pageNumber: '26' } },
+  //   { params: { pageNumber: '27' } },
+  //   { params: { pageNumber: '28' } },
+  //   { params: { pageNumber: '29' } },
+  //   { params: { pageNumber: '30' } },
+  //   { params: { pageNumber: '31' } },
+  //   { params: { pageNumber: '32' } },
+  //   { params: { pageNumber: '33' } },
+  //   { params: { pageNumber: '34' } },
+  //   { params: { pageNumber: '35' } },
+  //   { params: { pageNumber: '36' } },
+  //   { params: { pageNumber: '37' } },
+  //   { params: { pageNumber: '38' } },
+  //   { params: { pageNumber: '39' } },
+  //   { params: { pageNumber: '40' } },
+  //   { params: { pageNumber: '41' } },
+  //   { params: { pageNumber: '42' } },
+  //   { params: { pageNumber: '43' } },
+  //   { params: { pageNumber: '44' } },
+  //   { params: { pageNumber: '45' } },
+  //   { params: { pageNumber: '46' } },
+  //   { params: { pageNumber: '47' } },
+  //   { params: { pageNumber: '48' } },
+  //   { params: { pageNumber: '49' } },
+  //   { params: { pageNumber: '50' } },
+  //   { params: { pageNumber: '51' } },
+  //   { params: { pageNumber: '52' } },
+  //   { params: { pageNumber: '53' } },
+  //   { params: { pageNumber: '54' } },
+  //   { params: { pageNumber: '55' } },
+  //   { params: { pageNumber: '56' } },
+  //   { params: { pageNumber: '57' } },
+  //   { params: { pageNumber: '58' } },
+  // ];
+}
+
+ 
+) satisfies GetStaticPaths;
+
+const {pageNumber} = Astro.params;
+const imageSrc = `../src/assets/manual_images/page${pageNumber}.jpg`;
+---
+
+<Layout title="Manual Page">
+  <img src={imageSrc} alt={pageNumber} />
+</Layout>

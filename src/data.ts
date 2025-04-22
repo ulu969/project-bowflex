@@ -1,6 +1,7 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { lifts, sessions, exercises, users } from '@drizzle/schema'
 import { eq, desc, asc } from 'drizzle-orm'
+import { workoutsObj } from './assets/bowflex';
 
 export const db = drizzle(import.meta.env.POSTGRES_URL!)
 
@@ -130,19 +131,22 @@ export async function addExercise(name: string, group: string, page: number) {
 
 }
 
-// //seed exercises with this 
-// import { workoutsObj } from './assets/bowflex';
-// console.log(workoutsObj[0]);
-// for (const workout of workoutsObj) {
-//   //console.log('GROUP', workout.group);
 
-//   //console.log('Exercise', workout.exers[0].name);
-//   for (let i = 0; i < workout.exers.length; i++) {
-//     const group = workout.group;
-//     const name = workout.exers[i].name;
-//     const page = workout.exers[i].page;
+//seed exercises with this 
+export async function seedExercises() {
 
-//     console.log(name, group, page);
-//     addExercise(name, group, page);
-//   }
-// }
+  console.log(workoutsObj[0]);
+  for (const workout of workoutsObj) {
+    //console.log('GROUP', workout.group);
+
+    //console.log('Exercise', workout.exers[0].name);
+    for (let i = 0; i < workout.exers.length; i++) {
+      const group = workout.group;
+      const name = workout.exers[i].name;
+      const page = workout.exers[i].page;
+
+      console.log(name, group, page);
+      addExercise(name, group, page);
+    }
+  }
+}
