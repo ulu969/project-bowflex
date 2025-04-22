@@ -26,6 +26,7 @@ interface Session {
 interface Lift {
   lift_id: number
   session_id: number
+  session_date: string
   exer_name: string
   weight: number
   reps: number
@@ -104,6 +105,8 @@ export async function fetchLifts(): Promise<Lift[]> {
       .select({
         lift_id: lifts.liftId,
         session_id: lifts.sessionId,
+        session_date: sessions.sessionDate,
+
         exer_name: exercises.exerName,
         weight: lifts.weight,
         reps: lifts.reps,
@@ -111,6 +114,8 @@ export async function fetchLifts(): Promise<Lift[]> {
       })
       .from(lifts)
       .leftJoin(exercises, eq(lifts.exerId, exercises.exerId))
+      .leftJoin(sessions, eq(lifts.sessionId, sessions.sessionId))
+      .orderBy(desc(sessions.sessionDate))
     return result as Lift[]
   } catch (err) {
     console.error('Error fetching lifts: ', err)
