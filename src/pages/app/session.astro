@@ -1,10 +1,10 @@
 ---
 import Layout from '@src/layouts/app.astro';
 import { fetchLifts } from '@/src/data';
-import { callSafely } from 'astro:actions';
+
 
 const allLifts = await fetchLifts();
-const sessionId = 1;
+const sessionId = 3;
 const userId = 1;
 const sessionLifts = allLifts.filter((lift)=>(lift.session_id===sessionId))
 const exercises: string[] = []
@@ -25,13 +25,13 @@ const liftRow = {
     }
    
      console.log('Comment',this.comments)
-    console.log('called the clog() method of liftRow')
+   
   }
 }
 
 
 const liftRows = []
-const exLifts = []
+
 
 for(let i=0;i<exercises.length;i++){
   const exercise = exercises[i]
@@ -44,36 +44,22 @@ for(let i=0;i<exercises.length;i++){
              wt: sessionLifts[j].weight,
              reps: sessionLifts[j].reps,
       }
-      console.log('j lift',j,lift)
-      //lifts.push(lift)
+    
       lifts.push(lift)
       comments = ' ' + sessionLifts[j].comments
     }
 
   }
-  console.log('Lifts',lifts)
+
   const newLiftRow = Object.create(liftRow)
 
-//   newLiftRow = {
-//   exercise: exercise,
-//   lifts: [...lifts],
-//   comments: comments,
 
-// }
 newLiftRow.exercise = exercise
 newLiftRow.lifts = [...lifts]
 newLiftRow.comments = comments
 
   liftRows.push(newLiftRow)
 }
-console.log('Lift Rows: ',liftRows)
-console.log('liftRows[0]lifts [0]JFC: ',liftRows[0].lifts[0])
-
-console.log('liftRows[1]lifts [0]JFC: ',liftRows[1].lifts[0])
-
- console.log('Finally logging lift rows',liftRows[0].clog())
-
-
 
 
 ---
@@ -105,11 +91,6 @@ console.log('liftRows[1]lifts [0]JFC: ',liftRows[1].lifts[0])
     <div class="p-2 basis-1/12">Comments</div>
   </div>
 
-
-
   }
-
-
-
 
 </Layout>
