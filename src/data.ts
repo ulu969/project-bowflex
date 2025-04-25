@@ -26,6 +26,7 @@ interface Session {
 interface Lift {
   lift_id: number
   session_id: number
+  user_name: string,
   session_date: string
   exer_name: string
   weight: number
@@ -106,7 +107,7 @@ export async function fetchLifts(): Promise<Lift[]> {
         lift_id: lifts.liftId,
         session_id: lifts.sessionId,
         session_date: sessions.sessionDate,
-
+        user_name: users.userName,
         exer_name: exercises.exerName,
         weight: lifts.weight,
         reps: lifts.reps,
@@ -115,11 +116,25 @@ export async function fetchLifts(): Promise<Lift[]> {
       .from(lifts)
       .leftJoin(exercises, eq(lifts.exerId, exercises.exerId))
       .leftJoin(sessions, eq(lifts.sessionId, sessions.sessionId))
+      .leftJoin(users, eq(sessions.sessionId, users.userId))
       .orderBy(desc(sessions.sessionDate))
+
     return result as Lift[]
   } catch (err) {
     console.error('Error fetching lifts: ', err)
     return [];
+  }
+}
+export async function addSession(sessDate: string, sessUser: number) {
+  try {
+    await db.insert(sessions).values({
+      sessionDate: sessDate,
+      userId: sessUser,
+
+    })
+
+  } catch (err) {
+    console.error(err)
   }
 }
 

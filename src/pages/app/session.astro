@@ -1,0 +1,98 @@
+---
+import Layout from '@src/layouts/app.astro';
+import { fetchLifts } from '@/src/data';
+
+const allLifts = await fetchLifts();
+const sessionId = 3;
+const userId = 1;
+const sessionLifts = allLifts.filter((lift)=>(lift.session_id===sessionId))
+const exercises: string[] = []
+for(let i=0;i<sessionLifts.length;i++){
+  if(!exercises.includes(sessionLifts[i].exer_name)) {
+    exercises.push(sessionLifts[i].exer_name)
+  }
+}
+
+const lift = {
+  wt: 0,
+  reps: 0,
+}
+const liftRow = {
+  exercise: '',
+  lifts: [],
+  comments: '',
+  clog: function () {
+    console.log(this.exercise)
+    for(let i =0;i<this.lifts.length;i++){
+      console.log(this.lifts[i])
+    }
+   
+  }
+}
+const liftRows = []
+for(let i=0;i<exercises.length;i++){
+  const exercise = exercises[i]
+
+ const exLifts = []
+  const comments = ''
+  for(let j=0;i<sessionLifts.length;i++){
+   
+    const lifts = []
+    if(sessionLifts[j].exer_name===exercise){
+      const lift = {
+             wt: sessionLifts[j].weight,
+             reps: sessionLifts[j].reps,
+      }
+      lifts.push(lift)
+      comments.concat(sessionLifts[j].comments)
+    }
+    exLifts.push(lifts)
+
+  }
+  const liftRow = {
+    exercise: exercise,
+    lifts: exLifts,
+    comments: comments,
+  }
+  liftRows.push(liftRow)
+}
+console.log('Lift Rows: ',liftRows)
+
+
+---
+
+<Layout title="Session">
+  {sessionLifts.length===0 && <p>No lifts found for sessionId: {sessionId}</p>}
+
+  {sessionLifts.length > 0 &&
+
+    <div class="flex flex-row text-xl">
+    <div class="p-2 basis-1/4"> {sessionLifts[0].session_date}</div>
+    <div class="p-2 basis-1/8 capitalize"> {sessionLifts[0].user_name}</div>
+  </div>
+
+
+
+  <div class="header flex flex-row">
+    <div class="p-2 basis-1/3">Exercise</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Comments</div>
+  </div>
+
+
+
+  }
+
+
+
+
+</Layout>
