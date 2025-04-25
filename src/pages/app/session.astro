@@ -1,9 +1,10 @@
 ---
 import Layout from '@src/layouts/app.astro';
 import { fetchLifts } from '@/src/data';
+import { callSafely } from 'astro:actions';
 
 const allLifts = await fetchLifts();
-const sessionId = 3;
+const sessionId = 1;
 const userId = 1;
 const sessionLifts = allLifts.filter((lift)=>(lift.session_id===sessionId))
 const exercises: string[] = []
@@ -12,51 +13,67 @@ for(let i=0;i<sessionLifts.length;i++){
     exercises.push(sessionLifts[i].exer_name)
   }
 }
-
-const lift = {
-  wt: 0,
-  reps: 0,
-}
+const lift = {wt: 0, reps: 0}
 const liftRow = {
   exercise: '',
-  lifts: [],
+  lifts: [lift],
   comments: '',
   clog: function () {
-    console.log(this.exercise)
-    for(let i =0;i<this.lifts.length;i++){
-      console.log(this.lifts[i])
+     console.log('Exercise: ', this.exercise)
+    for(const lift of this.lifts) {
+      console.log(`Wt: ${lift.wt} Reps: ${lift.reps}`)
     }
    
+     console.log('Comment',this.comments)
+    console.log('called the clog() method of liftRow')
   }
 }
+
+
 const liftRows = []
+const exLifts = []
+
 for(let i=0;i<exercises.length;i++){
   const exercise = exercises[i]
-
- const exLifts = []
-  const comments = ''
-  for(let j=0;i<sessionLifts.length;i++){
+  let comments = ''
+  const lifts = []
+  for(let j=0;j<sessionLifts.length;j++){
    
-    const lifts = []
     if(sessionLifts[j].exer_name===exercise){
       const lift = {
              wt: sessionLifts[j].weight,
              reps: sessionLifts[j].reps,
       }
+      console.log('j lift',j,lift)
+      //lifts.push(lift)
       lifts.push(lift)
-      comments.concat(sessionLifts[j].comments)
+      comments = ' ' + sessionLifts[j].comments
     }
-    exLifts.push(lifts)
 
   }
-  const liftRow = {
-    exercise: exercise,
-    lifts: exLifts,
-    comments: comments,
-  }
-  liftRows.push(liftRow)
+  console.log('Lifts',lifts)
+  const newLiftRow = Object.create(liftRow)
+
+//   newLiftRow = {
+//   exercise: exercise,
+//   lifts: [...lifts],
+//   comments: comments,
+
+// }
+newLiftRow.exercise = exercise
+newLiftRow.lifts = [...lifts]
+newLiftRow.comments = comments
+
+  liftRows.push(newLiftRow)
 }
 console.log('Lift Rows: ',liftRows)
+console.log('liftRows[0]lifts [0]JFC: ',liftRows[0].lifts[0])
+
+console.log('liftRows[1]lifts [0]JFC: ',liftRows[1].lifts[0])
+
+ console.log('Finally logging lift rows',liftRows[0].clog())
+
+
 
 
 ---
