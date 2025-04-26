@@ -2,82 +2,78 @@
 import Layout from '@src/layouts/app.astro';
 import { fetchLifts } from '@/src/data';
 
-
 const allLifts = await fetchLifts();
-const sessionId = 3;
+const sessionId = 1;
+const sessionLifts = allLifts.filter((lift) => lift.session_id === sessionId);
 const userId = 1;
-const sessionLifts = allLifts.filter((lift)=>(lift.session_id===sessionId))
-const exercises: string[] = []
-for(let i=0;i<sessionLifts.length;i++){
-  if(!exercises.includes(sessionLifts[i].exer_name)) {
-    exercises.push(sessionLifts[i].exer_name)
+const liftRows = [];
+const exercises: string[] = [];
+
+//get the exercises used in the session
+for (let i = 0; i < sessionLifts.length; i++) {
+  if (!exercises.includes(sessionLifts[i].exer_name)) {
+    exercises.push(sessionLifts[i].exer_name);
   }
 }
-const lift = {wt: 0, reps: 0}
+//object structure to store data
+const lift = { wt: 0, reps: 0 };
 const liftRow = {
   exercise: '',
   lifts: [lift],
   comments: '',
-  clog: function () {
-     console.log('Exercise: ', this.exercise)
-    for(const lift of this.lifts) {
-      console.log(`Wt: ${lift.wt} Reps: ${lift.reps}`)
+  rowHtml: function () {
+    console.log('Exercise: ', this.exercise);
+    for (const lift of this.lifts) {
+      console.log(`Wt: ${lift.wt} Reps: ${lift.reps}`);
     }
-   
-     console.log('Comment',this.comments)
-   
-  }
-}
 
+    console.log('Comment', this.comments);
+  },
+};
 
-const liftRows = []
-
-
-for(let i=0;i<exercises.length;i++){
-  const exercise = exercises[i]
-  let comments = ''
-  const lifts = []
-  for(let j=0;j<sessionLifts.length;j++){
-   
-    if(sessionLifts[j].exer_name===exercise){
+//get the lifts associated with exercise and add them to liftRows[]
+for (let i = 0; i < exercises.length; i++) {
+  const exercise = exercises[i];
+  let comments = '';
+  const lifts = [];
+  for (let j = 0; j < sessionLifts.length; j++) {
+    if (sessionLifts[j].exer_name === exercise) {
       const lift = {
-             wt: sessionLifts[j].weight,
-             reps: sessionLifts[j].reps,
-      }
-    
-      lifts.push(lift)
-      comments = ' ' + sessionLifts[j].comments
+        wt: sessionLifts[j].weight,
+        reps: sessionLifts[j].reps,
+      };
+
+      lifts.push(lift);
+      comments = ' ' + sessionLifts[j].comments;
     }
-
   }
-
-  const newLiftRow = Object.create(liftRow)
-
-
-newLiftRow.exercise = exercise
-newLiftRow.lifts = [...lifts]
-newLiftRow.comments = comments
-
-  liftRows.push(newLiftRow)
+  const newLiftRow = Object.create(liftRow);
+  newLiftRow.exercise = exercise;
+  newLiftRow.lifts = [...lifts];
+  newLiftRow.comments = comments;
+  liftRows.push(newLiftRow);
 }
-
-
+console.log(liftRows);
 ---
 
 <Layout title="Session">
-  {sessionLifts.length===0 && <p>No lifts found for sessionId: {sessionId}</p>}
+  {
+    sessionLifts.length === 0 && (
+      <p>No lifts found for sessionId: {sessionId}</p>
+    )
+  }
 
-  {sessionLifts.length > 0 &&
-
-    <div class="flex flex-row text-xl">
-    <div class="p-2 basis-1/4"> {sessionLifts[0].session_date}</div>
-    <div class="p-2 basis-1/8 capitalize"> {sessionLifts[0].user_name}</div>
-  </div>
-
-
+  {
+    sessionLifts.length > 0 && (
+      <div class="flex flex-row text-xl">
+        <div class="p-2 basis-1/4"> {sessionLifts[0].session_date}</div>
+        <div class="p-2 basis-1/8 capitalize"> {sessionLifts[0].user_name}</div>
+      </div>
+    )
+  }
 
   <div class="header flex flex-row">
-    <div class="p-2 basis-1/3">Exercise</div>
+    <div class="p-2 basis-1/4">Exercise</div>
     <div class="p-2 basis-1/12">Wt</div>
     <div class="p-2 basis-1/12">Reps</div>
     <div class="p-2 basis-1/12">Wt</div>
@@ -90,7 +86,43 @@ newLiftRow.comments = comments
     <div class="p-2 basis-1/12">Reps</div>
     <div class="p-2 basis-1/12">Comments</div>
   </div>
+  {
+    liftRows.length > 0 &&
+      liftRows.map((liftRow, i) => (
+        <div>
+          <div class="flex flex-row text-xs justify-items-end">
+            <div class="p-2 basis-1/4 ">{liftRow.exercise}</div>
+            <div class="p-2 basis-1/12">{liftRow.lifts[0].wt}</div>
+            <div class="p-2 basis-1/12">{liftRow.lifts[0].reps}</div>
 
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 1 ? liftRow.lifts[1].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 1 ? liftRow.lifts[1].reps : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 2 ? liftRow.lifts[2].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 2 ? liftRow.lifts[2].reps : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 3 ? liftRow.lifts[3].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 3 ? liftRow.lifts[3].reps : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 4 ? liftRow.lifts[3].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 4 ? liftRow.lifts[3].reps : '-'}
+            </div>
+
+            <div class="p-2 basis-1/12">{liftRow.comments}</div>
+          </div>
+        </div>
+      ))
   }
-
 </Layout>
