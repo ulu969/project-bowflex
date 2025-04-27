@@ -39,6 +39,8 @@ interface Liftrow {
   exer_name: string,
   lifts: { wt: number, reps: number }[],
   comments: string,
+  user_name: string,
+  session_date: string,
 }
 
 export async function fetchSessionLiftRows(sessionId: number): Promise<Liftrow[]> {
@@ -47,6 +49,8 @@ export async function fetchSessionLiftRows(sessionId: number): Promise<Liftrow[]
     const sessionLifts = allLifts.filter((lift) => lift.session_id === sessionId);
     const liftRows = []
     const exercises: string[] = []
+    const user_name = sessionLifts[0].user_name
+    const session_date = sessionLifts[0].session_date
     //get the exercises used in the session
     for (let i = 0; i < sessionLifts.length; i++) {
       if (!exercises.includes(sessionLifts[i].exer_name)) {
@@ -66,7 +70,10 @@ export async function fetchSessionLiftRows(sessionId: number): Promise<Liftrow[]
           };
 
           sess_lifts.push(lift);
-          sess_comments = ' ' + sessionLifts[j].comments;
+          //sess_comments = sess_comments.concat(sessionLifts[j].comments)
+          sessionLifts[j].comments ?
+            sess_comments = sess_comments.concat(sessionLifts[j].comments)
+            : ''
         }
       }
 
@@ -74,16 +81,15 @@ export async function fetchSessionLiftRows(sessionId: number): Promise<Liftrow[]
         exer_name: exercise,
         lifts: sess_lifts,
         comments: sess_comments,
+        user_name: user_name,
+        session_date: session_date,
 
 
       }
 
       liftRows.push(newLiftRow);
-      console.log('lift rows from data.ts', liftRows)
+
     }
-
-
-
     return liftRows
   } catch (err) {
     console.error('Error fetching Liftrows: ', err)

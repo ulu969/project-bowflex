@@ -12,23 +12,15 @@ const sessions = await fetchSessions();
       sessions.map((session) => (
         <div class="flex">
           <div class="p-2 flex-1 w-full">{session.session_date}</div>
-          <div class="p-2">{session.user_name}</div>
+          <div class="p-2 capitalize">{session.user_name}</div>
 
           <div class="p-2">
-            <form
-              action={'/app/sessions/' + session.session_id + '/delete'}
-              method="POST"
+            <a
+              href={`/app/${session.session_id}`}
+              class="bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:-translate-y-1 cursor-pointer p-1"
             >
-              <button
-                type="submit"
-                class="bg-gray-500 text-white text-xs px-1 py-0.5 font-mono rounded-sm cursor-pointer"
-                onclick={
-                  "return confirm('Are you sure you want to delete this session?')"
-                }
-              >
-                Delete
-              </button>
-            </form>
+              View
+            </a>
           </div>
         </div>
       ))
