@@ -31,7 +31,7 @@ import { lifts } from '@/src/drizzle/schema';
 const sessionIdString = Astro.params;
 console.log(sessionIdString)
 console.log(sessionIdString.sessionId)
-const sessionId = parseInt(sessionIdString.sessionId) 
+const sessionId = parseInt(sessionIdString.sessionId)
 const allLifts = await fetchLifts();
 const sessionLifts = await fetchSessionLiftRows(sessionId);
 ---
@@ -50,34 +50,36 @@ const sessionLifts = await fetchSessionLiftRows(sessionId);
         </caption>
         <thead>
           <tr>
-            <th class='p-2'>Exercise</th>
-            <th class='p-2'>Wt</th>
-            <th class='p-2'>Reps</th>
-            <th class='p-2'>Wt</th>
-            <th class='p-2'>Reps</th>
-            <th class='p-2'>Wt</th>
-            <th class='p-2'>Reps</th>
-            <th class='p-2'>Wt</th>
-            <th class='p-2'>Reps</th>
-            <th class='p-2'>Wt</th>
-            <th class='p-2'>Reps</th> 
+            <th class='p-2 basis-md'>Exercise</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='.comments--header p-2 basis-sm'>Comments</th>
           </tr>
         </thead>
         <tbody>
-          {sessionLifts.map((liftRow) => (
-            <tr >
+          {sessionLifts.map((liftRow,i) => (
+          <tr >
               <td>{liftRow.exer_name}</td>
               {liftRow.lifts.map((lift)=> (
                 <td class='p-2 text-right'>{lift.wt}</td>
                 <td class='p-2 text-right'>{lift.reps}</td>
 
               ))}
-              <td>{liftRow.comments}</td>
-            
-            </tr>
+                <td>{liftRow.comments}</td>
+          </tr>
           ))}
+         
         </tbody>
       </table>
     )
+    </Layout>
+    
   }
-</Layout>
