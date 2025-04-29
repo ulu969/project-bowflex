@@ -1,0 +1,60 @@
+---
+import Layout from '@layouts/app.astro';
+export async function getStaticPaths() {
+  // //page number are from 22 to 58
+  // const pages = [...Array(37).keys()].map((x) => (x += 22));
+  // const objParams = [];
+  // for (let page of pages) {
+  //   objParams.push(`{ params: { page: '${page.toString()}' } },`);
+  // }
+  // console.log(objParams);
+  return [
+    { params: { page: '22' } },
+    { params: { page: '23' } },
+    { params: { page: '24' } },
+    { params: { page: '25' } },
+    { params: { page: '26' } },
+    { params: { page: '27' } },
+    { params: { page: '28' } },
+    { params: { page: '29' } },
+    { params: { page: '30' } },
+    { params: { page: '31' } },
+    { params: { page: '32' } },
+    { params: { page: '33' } },
+    { params: { page: '34' } },
+    { params: { page: '35' } },
+    { params: { page: '36' } },
+    { params: { page: '37' } },
+    { params: { page: '38' } },
+    { params: { page: '39' } },
+    { params: { page: '40' } },
+    { params: { page: '41' } },
+    { params: { page: '42' } },
+    { params: { page: '43' } },
+    { params: { page: '44' } },
+    { params: { page: '45' } },
+    { params: { page: '46' } },
+    { params: { page: '47' } },
+    { params: { page: '48' } },
+    { params: { page: '49' } },
+    { params: { page: '50' } },
+    { params: { page: '51' } },
+    { params: { page: '52' } },
+    { params: { page: '53' } },
+    { params: { page: '54' } },
+    { params: { page: '55' } },
+    { params: { page: '56' } },
+    { params: { page: '57' } },
+    { params: { page: '58' } },
+  ];
+}
+
+const { page } = Astro.params;
+
+const imageSrc = `../src/assets/manual_images/page${page}.jpg`;
+---
+
+<Layout title="Exercise Description">
+  <h2>From the Bowflex Manual</h2>
+  <img src={imageSrc} alt={page} />
+</Layout>

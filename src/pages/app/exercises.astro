@@ -1,7 +1,9 @@
 ---
 import Layout from '@layouts/app.astro';
 import { fetchUsers, fetchExercises } from '@/src/data';
+
 const exercises = await fetchExercises();
+
 ---
 
 <Layout title="Exercises">
@@ -13,6 +15,7 @@ const exercises = await fetchExercises();
         <div class="flex flex-row text-xs">
           <div class="p-0 basis-1/5">{exer.exer_musclegroup} </div>
           <div class="p-0 basis-3/5 ">{exer.exer_name}</div>
+ sessioninput-on-minimac
           <div class="p-0">{exer.exer_page}</div>{' '}
           <div class="p-2">
             <a href=`/app/${exer.exer_page}`
@@ -21,14 +24,11 @@ const exercises = await fetchExercises();
             >View</a>
             
             
+
+
           </div>
         </div>
       ))
   }
-  <button
-    id="button-add"
-    class="fixed bottom-6 right-6 w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:-translate-y-1 cursor-pointer"
-  >
-    <span class="text-3xl -mt-1 font-bold">&plus;</span>
-  </button>
+
 </Layout>
