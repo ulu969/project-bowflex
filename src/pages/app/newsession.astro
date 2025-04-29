@@ -1,354 +1,661 @@
 ---
+import { workoutsObj } from '@src/assets/bowflex.js';
+import { fetchUsers } from '@/src/data';
 import Layout from '@src/layouts/app.astro';
+const users = await fetchUsers();
 ---
 
 <Layout>
-  <div class="w-full flex justify-between items-center mb-3 mt-1 pl-3">
-    <div>
-      <h3 class="text-lg font-semibold text-slate-800">Bowflex Session</h3>
-      <p class="text-slate-500">Date</p>
-    </div>
-    <div class="ml-3">
-      <div class="w-full max-w-sm min-w-[200px] relative">
-        <div class="relative">
-          <input
-            class="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
-            placeholder="Search for exercise"
-          />
-          <button
-            class="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded"
-            type="button"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="3"
-              stroke="currentColor"
-              class="w-8 h-8 text-slate-600"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              ></path>
-            </svg>
-          </button>
-        </div>
+  <form action="/submit-session" method="POST">
+    <div class="mb-4 flex space-x-4">
+      <!-- Date Input Field -->
+      <div class="flex-1">
+        <label
+          for="session-date"
+          class="block text-sm font-medium text-slate-700">Session Date</label
+        >
+        <input
+          type="date"
+          id="session-date"
+          name="session_date"
+          class="mt-1 block w-full border border-slate-300 rounded p-2 text-slate-700"
+          required
+        />
+      </div>
+
+      <!-- User Input Field -->
+      <div class="flex-1">
+        <label for="user-name" class="block text-sm font-medium text-slate-700"
+          >User Name</label
+        >
+        <input
+          type="text"
+          id="user-name"
+          name="user_name"
+          list="user-list"
+          class="mt-1 block w-full border border-slate-300 rounded p-2 text-slate-700"
+          placeholder="Enter your name"
+          required
+        />
       </div>
     </div>
-  </div>
 
-  <div
-    class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border"
-  >
-    <table class="w-full text-left table-auto min-w-max">
-      <thead>
-        <tr>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Exercise
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Wt
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Reps
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Wt
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Reps
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Wt
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Reps
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Wt
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Reps
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Wt
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Reps
-            </p>
-          </th>
-          <th class="p-4 border-b border-slate-300 bg-slate-50">
-            <p class="block text-sm font-normal leading-none text-slate-500">
-              Comments
-            </p>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200 py-5">
-            <p class=".exer block font-semibold text-sm text-slate-800">
-              Bench Press
-            </p>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full border-collapse border border-slate-300">
+        <!-- Existing Rows -->
+        <tr class="bg-gray-100">
+          <td class="p-2 w-2/5">
+            <input
+              type="text"
+              name="exercise1"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Exercise"
+              list="exercise-list"
+              maxlength="60"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">100</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight1_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">8</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps1_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight2_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps2_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight3_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps3_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight4_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">3</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps4_1"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".comments p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
+          <td class="p-2 w-1/5">
+            <input
+              type="text"
+              name="comments1"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Comments"
+            />
           </td>
         </tr>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200 py-5">
-            <p class=".exer block font-semibold text-sm text-slate-800">
-              Bench Press
-            </p>
+
+        <!-- Row 2 -->
+        <tr class="bg-gray-100">
+          <td class="p-2 w-2/5">
+            <input
+              type="text"
+              name="exercise2"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Exercise"
+              list="exercise-list"
+              maxlength="60"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">100</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight1_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">8</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps1_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight2_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps2_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight3_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps3_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight4_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">3</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps4_2"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".comments p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-        </tr>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200 py-5">
-            <p class=".exer block font-semibold text-sm text-slate-800">
-              Bench Press
-            </p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">100</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">8</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">3</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".comments p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-        </tr>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200 py-5">
-            <p class=".exer block font-semibold text-sm text-slate-800">
-              Bench Press
-            </p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">100</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">8</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">3</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".comments p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
+          <td class="p-2 w-1/5">
+            <input
+              type="text"
+              name="comments2"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Comments"
+            />
           </td>
         </tr>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200 py-5">
-            <p class=".exer block font-semibold text-sm text-slate-800">
-              Bench Press
-            </p>
+
+        <!-- Rows 3, 4, 5, and 6 -->
+        <tr class="bg-gray-100">
+          <td class="p-2 w-2/5">
+            <input
+              type="text"
+              name="exercise3"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Exercise"
+              list="exercise-list"
+              maxlength="60"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">100</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight1_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">8</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps1_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight2_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps2_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight3_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps3_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight4_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">3</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps4_3"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".comments p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
+          <td class="p-2 w-1/5">
+            <input
+              type="text"
+              name="comments3"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Comments"
+            />
           </td>
         </tr>
-        <tr class="hover:bg-slate-50">
-          <td class="p-4 border-b border-slate-200 py-5">
-            <p class=".exer block font-semibold text-sm text-slate-800">
-              Bench Press
-            </p>
+
+        <!-- Repeat similar structure for rows 4, 5, and 6 -->
+        <!--Row 4 -->
+        <tr class="bg-gray-100">
+          <td class="p-2 w-2/5">
+            <input
+              type="text"
+              name="exercise4"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Exercise"
+              list="exercise-list"
+              maxlength="60"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">100</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight1_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">8</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps1_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight2_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps2_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight3_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">6</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps3_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">120</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight4_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">3</p>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps4_4"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
           </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".lift p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
-          </td>
-          <td class=".comments p-4 border-b border-slate-200 py-5">
-            <p class="text-sm text-slate-500">-</p>
+          <td class="p-2 w-1/5">
+            <input
+              type="text"
+              name="comments4"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Comments"
+            />
           </td>
         </tr>
-      </tbody>
-    </table>
-  </div>
+        <!-- Row 5 -->
+        <tr class="bg-gray-100">
+          <td class="p-2 w-2/5">
+            <input
+              type="text"
+              name="exercise5"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Exercise"
+              list="exercise-list"
+              maxlength="60"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight1_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps1_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight2_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps2_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight3_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps3_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight4_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps4_5"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/5">
+            <input
+              type="text"
+              name="comments5"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Comments"
+            />
+          </td>
+        </tr>
+        <!-- Row 6 -->
+        <tr class="bg-gray-100">
+          <td class="p-2 w-2/5">
+            <input
+              type="text"
+              name="exercise6"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Exercise"
+              list="exercise-list"
+              maxlength="60"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight1_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps1_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight2_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps2_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight3_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps3_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="weight4_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              step="5"
+              min="0"
+              placeholder="Wt"
+            />
+          </td>
+          <td class="p-2 w-1/12">
+            <input
+              type="number"
+              name="reps4_6"
+              class="border border-slate-300 rounded p-0 w-full text-xs"
+              placeholder="Reps"
+              min="0"
+            />
+          </td>
+          <td class="p-2 w-1/5">
+            <input
+              type="text"
+              name="comments6"
+              class="border border-slate-300 rounded p-2 w-full text-sm"
+              placeholder="Comments"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Datalist for Exercise Options -->
+    <datalist id="exercise-list">
+      {
+        workoutsObj.map((group) =>
+          group.exers.map((exercise) => <option value={exercise.name} />)
+        )
+      }
+    </datalist>
+    <datalist id="user-list">
+      {users.map((user) => <option value={user.user_name} />)}
+    </datalist>
+
+    <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+      Submit
+    </button>
+  </form>
+
+  <style>
+    table {
+      table-layout: fixed; /* Ensures consistent column widths */
+      width: 100%; /* Makes the table responsive */
+    }
+
+    td {
+      word-wrap: break-word; /* Allows long text to wrap within the cell */
+    }
+  </style>
 </Layout>

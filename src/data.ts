@@ -234,3 +234,6 @@ export async function seedExercises() {
     }
   }
 }
+export async function getExercises() {
+
+}
