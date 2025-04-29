@@ -1,0 +1,4 @@
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("user_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "lifts" ADD CONSTRAINT "lifts_exer_id_fkey" FOREIGN KEY ("exer_id") REFERENCES "public"."exercises"("exer_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "lifts" ADD CONSTRAINT "lifts_session_id_fkey" FOREIGN KEY ("session_id") REFERENCES "public"."sessions"("session_id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "users" ADD CONSTRAINT "users_user_name_key" UNIQUE("user_name");

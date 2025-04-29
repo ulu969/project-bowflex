@@ -2,20 +2,32 @@
 import Layout from '@layouts/app.astro';
 import { fetchUsers, fetchExercises, fetchLifts } from '@/src/data';
 const lifts = await fetchLifts();
+console.log(lifts);
 ---
 
 <Layout title="Lifts">
+  <div class="flex flex-row">
+    <div class="p-2 basis-1/8">Date</div>
+    <div class="p-2 basis-1/8">User</div>
+    <div class="p-2 basis-1/4">Exercise</div>
+    <div class="p-2 basis-1/6">Weight</div>
+    <div class="p-2 basis-1/6">Reps</div>
+    <div class="p-2 basis-1/6">Comments</div>
+  </div>
+
   {lifts.length === 0 && <p>No lifts found</p>}
 
   {
     lifts.length > 0 &&
       lifts.map((lift) => (
-        <div class="flex">
-          <div class="p-2 flex-1 w-1/2">{lift.exer_name}</div>
-          {/* <div class="p-2">{lift.exer_name}</div> */}
-          <div class="p-2">{lift.weight}</div>
-          <div class="p-2">{lift.reps}</div>
-          <div class="p-2">{lift.comments}</div>
+        <div class="flex flex-row text-xs justify-end-safe">
+          <div class="p-2 basis-1/5">{lift.session_date}</div>
+          <div class="p-2 basis-1/5">{lift.user_name}</div>
+          <div class="p-2 basis-1/3">{lift.exer_name}</div>
+
+          <div class="p-2 basis-1/6">{lift.weight}</div>
+          <div class="p-2 basis-1/6">{lift.reps}</div>
+          <div class="p-2 basis-1/6">{lift.comments}</div>
 
           <div class="p-2">
             <form

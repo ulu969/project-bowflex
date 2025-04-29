@@ -1,0 +1,79 @@
+---
+import Layout from '@src/layouts/app.astro';
+import { fetchSessionLiftRows } from '@/src/data';
+import { fetchLifts } from '@/src/data';
+
+const sessionId = 1;
+const allLifts = await fetchLifts();
+const sessionLifts = await fetchSessionLiftRows(sessionId);
+---
+
+<Layout title="Session">
+  {
+    sessionLifts.length === 0 && (
+      <p>No lifts found for sessionId: {sessionId}</p>
+    )
+  }
+  {
+    sessionLifts.length > 0 && (
+      <div class="flex flex-row text-xl">
+        <div class="p-2 basis-1/4">{sessionLifts[0].session_date}</div>
+        <div class="p-2 basis-1/8 capitalize">{sessionLifts[0].user_name}</div>
+      </div>
+    )
+  }
+
+  <div class="header flex flex-row justify-items-end">
+    <div class="p-2 basis-1/4">Exercise</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Wt</div>
+    <div class="p-2 basis-1/12">Reps</div>
+    <div class="p-2 basis-1/12">Comments</div>
+  </div>
+  {
+    sessionLifts.length > 0 &&
+      sessionLifts.map((liftRow, i) => (
+        <div>
+          <div class="flex flex-row text-xs justify-items-end">
+            <div class="p-2 basis-1/6 ">{liftRow.exer_name}</div>
+            {/* <div class="p-2 basis-1/12">{liftRow.lifts[0].wt}</div>
+            <div class="p-2 basis-1/12">{liftRow.lifts[0].reps}</div>
+
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 1 ? liftRow.lifts[1].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 1 ? liftRow.lifts[1].reps : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 2 ? liftRow.lifts[2].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 2 ? liftRow.lifts[2].reps : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 3 ? liftRow.lifts[3].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 3 ? liftRow.lifts[3].reps : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 4 ? liftRow.lifts[3].wt : '-'}
+            </div>
+            <div class="p-2 basis-1/12">
+              {liftRow.lifts.length > 4 ? liftRow.lifts[3].reps : '-'}
+            </div>
+
+            <div class="p-2 basis-1/12">{liftRow.comments}</div> */}
+          </div>
+        </div>
+      ))
+  }
+</Layout>

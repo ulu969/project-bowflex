@@ -1,0 +1,85 @@
+---
+import type { GetStaticPaths } from "astro";
+
+import Layout from '@src/layouts/app.astro';
+import { fetchSessionLiftRows } from '@/src/data';
+import { fetchLifts } from '@/src/data';
+import { lifts } from '@/src/drizzle/schema';
+
+//generate enough parameters - needs to be changed
+ export const getStaticPaths = (() => {
+  const ids = [...Array(1000).keys()].map((id)=> id+1)
+  const paramObjArray = ids.map((id)=> {
+    const paramObj = {params: {sessionId: id.toString()}}
+    return paramObj
+  })
+  return paramObjArray
+
+  // return [
+  //   { params: {sessionId: '1' } },
+  //   { params: {sessionId: '2' } },
+  //   { params: {sessionId: '3' } },
+  //   { params: {sessionId: '4' } },
+  //   { params: {sessionId: '5' } },
+  //   { params: {sessionId: '6' } },
+  //   { params: {sessionId: '7' } },
+  //   { params: {sessionId: '8' } },
+  //   { params: {sessionId: '9' } },
+  // ];
+}) satisfies GetStaticPaths;
+
+const sessionIdString = Astro.params;
+console.log(sessionIdString)
+console.log(sessionIdString.sessionId)
+const sessionId = parseInt(sessionIdString.sessionId)
+const allLifts = await fetchLifts();
+const sessionLifts = await fetchSessionLiftRows(sessionId);
+---
+
+<Layout title="Session">
+  {
+    sessionLifts.length === 0 && (
+      <p>No lifts found for sessionId: {sessionId}</p>
+    )
+  }
+  {
+    sessionLifts.length > 0 && (
+      <table class="table-fixed border-collapse border-spacing-2">
+        <caption class="caption-top capitalize">
+          Date: {sessionLifts[0].session_date} User: {sessionLifts[0].user_name}
+        </caption>
+        <thead>
+          <tr>
+            <th class='p-2 basis-md'>Exercise</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='p-2 basis-xs'>Wt</th>
+            <th class='p-2 basis-xs'>Reps</th>
+            <th class='.comments--header p-2 basis-sm'>Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sessionLifts.map((liftRow,i) => (
+          <tr >
+              <td>{liftRow.exer_name}</td>
+              {liftRow.lifts.map((lift)=> (
+                <td class='p-2 text-right'>{lift.wt}</td>
+                <td class='p-2 text-right'>{lift.reps}</td>
+
+              ))}
+                <td>{liftRow.comments}</td>
+          </tr>
+          ))}
+         
+        </tbody>
+      </table>
+    )
+    </Layout>
+    
+  }
